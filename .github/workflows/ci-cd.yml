@@ -1,0 +1,35 @@
+name: CI/CD Pipeline
+ 
+on:
+  push:
+    branches:
+      - main
+ 
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+ 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+ 
+      - name: Log in to Azure Container Registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: <your-registry-name>.azurecr.io
+          username: ${{ secrets.AZURE_USERNAME }}
+          password: ${{ secrets.AZURE_PASSWORD }}
+ 
+      - name: Build Docker image
+        run: |
+          docker build -t hello-world-app .
+ 
+      - name: Tag Docker image
+        run: |
+          docker tag hello-world-app:latest <your-registry-name>.azurecr.io/hello-world-app:latest
+ 
+      - name: Push Docker image to ACR
+        run: |
+          docker push <your-registry-name>.azurecr.io/hello-world-app:latest
