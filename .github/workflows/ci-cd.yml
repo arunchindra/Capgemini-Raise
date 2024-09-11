@@ -28,8 +28,8 @@ jobs:
  
       - name: Tag Docker image
         run: |
-          docker tag hello-world-app:latest <your-registry-name>.azurecr.io/hello-world-app:latest
+          docker tag hello-world-app:latest raisedeploymentschan.azurecr.io/hello-world-app:latest
  
       - name: Push Docker image to ACR
         run: |
-          docker push <your-registry-name>.azurecr.io/hello-world-app:latest
+          docker push raisedeploymentschan.azurecr.io/hello-world-app:latest
